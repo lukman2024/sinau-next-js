@@ -1,15 +1,9 @@
+import ProductView from "@/views/product";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-type productType = {
-  id: number;
-  name: string;
-  price: number;
-  size: string;
-};
-
 const ProductPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [products, setProducts] = useState([]);
   const { push } = useRouter();
 
@@ -23,16 +17,14 @@ const ProductPage = () => {
     fetch("/api/product")
       .then((res) => res.json())
       .then((response) => {
+        console.log(response.data);
         setProducts(response.data);
       });
   }, []);
 
   return (
     <div>
-      <h1>Product Page</h1>
-      {products.map((product: productType) => (
-        <div key={product.id}>{product.name}</div>
-      ))}
+      <ProductView products={products} />
     </div>
   );
 };
